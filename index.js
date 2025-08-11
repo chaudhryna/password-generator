@@ -4,10 +4,13 @@ const characters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"
 const generateBtn = document.getElementById('generate-btn');
 const pwOne = document.getElementById('pw-one');
 const pwTwo = document.getElementById('pw-two');
+const copyBtns = document.querySelectorAll('.copy-btn');
+const copyPwOne = document.getElementById('copy-pw-one');
+const copyPwTwo = document.getElementById('copy-pw-two');
 
 function generatePassword() {
   let newPassword = "";
-  for (let i=0; i <= 15; i++) {
+  for (let i=0; i < 15; i++) {
     let pwIndex = Math.floor(Math.random() * characters.length);
     newPassword += characters[pwIndex]
   }
@@ -15,6 +18,33 @@ function generatePassword() {
 }
 
 generateBtn.addEventListener("click", function generatePW() {
+  for (i = 0; i < copyBtns.length; ++i) {
+		copyBtns[i].style.visibility = 'visible';
+    copyBtns[i].firstElementChild.classList.remove('fa-clipboard-check');
+    copyBtns[i].firstElementChild.classList.add('fa-clipboard');
+
+  }
   pwOne.textContent = generatePassword()
   pwTwo.textContent = generatePassword()
 });
+
+
+ copyPwOne.addEventListener('click', async () => {
+		try {
+			await navigator.clipboard.writeText(pwOne.textContent);
+      copyPwOne.firstElementChild.classList.remove('fa-clipboard');
+		  copyPwOne.firstElementChild.classList.add('fa-clipboard-check');
+		} catch (err) {
+			console.error(err.name, err.message);
+		}
+ });
+
+  copyPwTwo.addEventListener('click', async () => {
+		try {
+			await navigator.clipboard.writeText(pwTwo.textContent);
+      copyPwTwo.firstElementChild.classList.remove('fa-clipboard');
+      copyPwTwo.firstElementChild.classList.add('fa-clipboard-check');
+		} catch (err) {
+			console.error(err.name, err.message);
+		}
+  });
